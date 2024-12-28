@@ -7,7 +7,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-//import com.mongodb.MongoClient;
+import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
@@ -24,12 +24,12 @@ public class TwitterTrendsScraper {
 	public static void main(String[] args) {
 		SpringApplication.run(TwitterTrendsScraper.class, args);
 		// MongoDB setup
-//		MongoClient mongoClient = new MongoClient("localhost", 27017);
-//		MongoDatabase database = mongoClient.getDatabase("twitter_trends");
-//		MongoCollection<Document> collection = database.getCollection("trending_topics");
+		MongoClient mongoClient = new MongoClient("localhost", 27017);
+		MongoDatabase database = mongoClient.getDatabase("twitter_trends");
+		MongoCollection<Document> collection = database.getCollection("trending_topics");
 
 		// Selenium WebDriver setup
-		//options.addArguments("--proxy-server=http://USERNAME:PASSWORD@proxymesh.com:31280"); // Replace with ProxyMesh credentials
+		options.addArguments("--proxy-server=http://USERNAME:PASSWORD@proxymesh.com:31280"); // Replace with ProxyMesh credentials
 		WebDriver driver = new ChromeDriver();
 
 		try {
@@ -80,7 +80,7 @@ public class TwitterTrendsScraper {
 			// Store in MongoDB
 			Document record = new Document("_id", uniqueId).append("trend1", trends[0]).append("trend2", trends[1]).append("trend3", trends[2]).append("trend4", trends[3]).append("trend5", trends[4]).append("timestamp", timestamp).append("ip_address", ipAddress);
 
-			//collection.insertOne(record);
+			collection.insertOne(record);
 
 			System.out.println("Record inserted: " + record.toJson());
 
@@ -88,7 +88,7 @@ public class TwitterTrendsScraper {
 			e.printStackTrace();
 		} finally {
 			driver.quit();
-			//mongoClient.close();
+			mongoClient.close();
 		}
 	}
 }
