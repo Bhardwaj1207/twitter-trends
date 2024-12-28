@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Twitter Trending</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            text-align: center;
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+
+        h1 {
+            color: #1da1f2;
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        #topTrendingButton {
+            background-color: #1da1f2;
+            color: white;
+            font-size: 18px;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #topTrendingButton:hover {
+            background-color: #0d95e8;
+        }
+
+        #topTrendingButton:active {
+            background-color: #007bb5;
+        }
+
+        .footer {
+            margin-top: 40px;
+            font-size: 14px;
+            color: #888;
+        }
+
+        .footer p {
+            color: #A9A9A9;
+            text-decoration: none;
+        }
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Top Trendings</h1>
+    <p>Click below to view top 5 trending topics from Twitter.</p>
+    <button id="topTrendingButton" onclick="fetchTrending()">Twitter Trends</button>
+    <p id="result"></p>
+
+
+    <div class="footer">
+        <p id="creation">Created by: Ankit Bhardwaj</p>
+    </div>
+</div>
+
+<script>
+    function fetchTrending() {
+            fetch('http://localhost:8080/fetch-trending')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('result').innerText = data;
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    document.getElementById('result').innerText = 'Error fetching trends!';
+                });
+        }
+</script>
+</body>
+</html>
